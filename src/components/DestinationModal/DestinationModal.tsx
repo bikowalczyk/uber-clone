@@ -2,6 +2,7 @@ import React from 'react';
 import {Modal} from 'react-native';
 
 import {RoundButton} from 'components/RoundButton';
+import {useDestinationModal} from 'components/DestinationModal/useDestinationModal';
 
 import {StyledFlatlist} from './DestinationModal.styles';
 import {FlatlistHeader} from './components/FlatlistHeader';
@@ -15,6 +16,8 @@ export const DestinationModal = ({
   visible,
   closeModal,
 }: DestinationModalProps) => {
+  const {models, operations} = useDestinationModal();
+
   const handleRoundButtonPress = () => {
     closeModal();
   };
@@ -28,7 +31,14 @@ export const DestinationModal = ({
       <StyledFlatlist
         data={[]}
         renderItem={renderFlatListItem}
-        ListHeaderComponent={FlatlistHeader}
+        ListHeaderComponent={
+          <FlatlistHeader
+            destinationValue={models.destinationInputValue}
+            onDestinationTextChange={
+              operations.handleDestinationInputTextChange
+            }
+          />
+        }
       />
       <RoundButton icon="arrow-back-outline" onPress={handleRoundButtonPress} />
     </Modal>

@@ -5,19 +5,28 @@ import {DisabledInput, Input} from './DestinationInput.styles';
 interface DestinationInputProps {
   disabled?: boolean;
   placeholder?: string;
-  autofocus?: boolean;
+  autoFocus?: boolean;
+  onChangeText?: (text: string) => void;
+  value?: string;
 }
 
 export const DestinationInput = ({
   disabled,
   placeholder,
-  autofocus,
+  autoFocus,
+  onChangeText,
+  value,
 }: DestinationInputProps) => {
-  const sharedProps = {placeholder, autofocus};
+  const sharedProps = {placeholder};
 
   return disabled ? (
-    <DisabledInput {...sharedProps} />
+    <DisabledInput editable={false} {...sharedProps} />
   ) : (
-    <Input {...sharedProps} />
+    <Input
+      onChangeText={onChangeText}
+      autoFocus={autoFocus}
+      {...sharedProps}
+      value={value}
+    />
   );
 };

@@ -4,21 +4,52 @@ import {scale} from 'react-native-size-matters';
 
 import {DestinationInput} from 'components/DestinationInput';
 import {Spacer} from 'components/common/Spacer';
+import {Divider} from 'components/common/Divider';
 
-import {Container, HorizontalContainer} from './FlatlistHeader.styles';
+import {
+  Container,
+  DecoratorCircle,
+  DecoratorLine,
+  DecoratorsContainer,
+  DecoratorSquare,
+  HorizontalContainer,
+  InputsContainer,
+} from './FlatlistHeader.styles';
 
-export const FlatlistHeader = () => {
+interface FlatlistHeaderProps {
+  destinationValue: string;
+  onDestinationTextChange: (text: string) => void;
+}
+
+export const FlatlistHeader = ({
+  destinationValue,
+  onDestinationTextChange,
+}: FlatlistHeaderProps) => {
   const insets = useSafeAreaInsets();
 
   return (
-    <Container>
-      <Spacer height={insets.top + scale(60)} />
-      <HorizontalContainer>
-        <Container>
-          <DestinationInput disabled placeholder="Current Location" />
-          <DestinationInput />
-        </Container>
-      </HorizontalContainer>
-    </Container>
+    <>
+      <Container>
+        <Spacer height={insets.top + scale(60)} />
+        <HorizontalContainer>
+          <DecoratorsContainer>
+            <DecoratorCircle />
+            <DecoratorLine />
+            <DecoratorSquare />
+          </DecoratorsContainer>
+          <Spacer width={scale(10)} />
+          <InputsContainer>
+            <DestinationInput disabled placeholder="Current Location" />
+            <Spacer height={scale(10)} />
+            <DestinationInput
+              value={destinationValue}
+              onChangeText={onDestinationTextChange}
+            />
+          </InputsContainer>
+        </HorizontalContainer>
+      </Container>
+      <Spacer height={scale(10)} />
+      <Divider />
+    </>
   );
 };
