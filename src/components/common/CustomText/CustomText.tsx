@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {BodyText} from './CustomText.styles';
+import {BodyText, TitleText, CaptionText} from './CustomText.styles';
 
 interface CustomText {
-  variant: 'body';
+  variant: 'body' | 'title' | 'caption';
   children: string;
 }
 
@@ -11,6 +11,10 @@ const getComponent = (variant: CustomText['variant']) => {
   switch (variant) {
     case 'body':
       return BodyText;
+    case 'title':
+      return TitleText;
+    case 'caption':
+      return CaptionText;
     default:
       return BodyText;
   }

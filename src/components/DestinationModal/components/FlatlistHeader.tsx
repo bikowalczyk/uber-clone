@@ -44,12 +44,14 @@ export const FlatlistHeader = ({
             <DestinationInput
               value={destinationValue}
               onChangeText={onDestinationTextChange}
+              autoFocus
             />
           </InputsContainer>
         </HorizontalContainer>
+        <Spacer height={scale(15)} />
+        <Divider />
       </Container>
-      <Spacer height={scale(10)} />
-      <Divider />
+      <Spacer height={scale(15)} />
     </>
   );
 };
