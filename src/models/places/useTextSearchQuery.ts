@@ -40,7 +40,7 @@ export const useTextSearchQuery = (searchQuery?: string) => {
         }
       })();
     } else {
-      setResponseData();
+      setResponseData(undefined);
     }
   }, [
     searchQuery,

@@ -1,6 +1,9 @@
-import {useEffect, useRef, useState} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import type {LatLng, UserLocationChangeEvent} from 'react-native-maps';
 import type MapView from 'react-native-maps';
+import type {MapDirectionsResponse} from 'react-native-maps-directions';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {scale} from 'react-native-size-matters';
 
 import {useUserLocationStateContext} from 'context/UserLocationStateContext';
 
@@ -11,10 +14,27 @@ export const useMapScreen = () => {
   const mapRef = useRef<MapView>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [mapMarkers, setMapMarkers] = useState<LatLng[]>([]);
+  const [mapDirectionsInfo, setMapDirectionsInfo] =
+    useState<MapDirectionsResponse>();
+
+  const insets = useSafeAreaInsets();
 
   const {userLocation, setUserLocation} = useUserLocationStateContext();
 
   useEffect(() => {
+    if (mapDirectionsInfo?.coordinates) {
+      mapRef.current?.fitToCoordinates(mapDirectionsInfo?.coordinates, {
+        edgePadding: {
+          top: insets.top + scale(15),
+          bottom: scale(15),
+          left: scale(15),
+          right: scale(15),
+        },
+      });
+    }
+  }, [insets.top, mapDirectionsInfo?.coordinates]);
+
+  const centerToUserLocation = useCallback(() => {
     if (userLocation) {
       mapRef.current?.animateToRegion({
         longitude: userLocation.coords.longitude,
@@ -24,6 +44,10 @@ export const useMapScreen = () => {
       });
     }
   }, [userLocation]);
+
+  useEffect(() => {
+    centerToUserLocation();
+  }, [centerToUserLocation]);
 
   const closeDestinationModal = () => {
     setModalVisible(false);
@@ -55,6 +79,17 @@ export const useMapScreen = () => {
     };
   };
 
+  const handleMapDirectionsReady = (response: MapDirectionsResponse) => {
+    setMapDirectionsInfo(response);
+  };
+
+  const handleRoundButtonPress = () => {
+    if (mapMarkers.length === 2) {
+      setMapMarkers([]);
+      centerToUserLocation();
+    }
+  };
+
   return {
     models: {
       mapRef,
@@ -66,6 +101,8 @@ export const useMapScreen = () => {
       handleMapSearchBarPress,
       closeDestinationModal,
       handlePlaceItemPress,
+      handleMapDirectionsReady,
+      handleRoundButtonPress,
     },
   };
 };

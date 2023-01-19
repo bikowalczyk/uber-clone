@@ -1,3 +1,4 @@
+import {useTheme} from '@emotion/react';
 import React from 'react';
 
 import {DisabledInput, Input} from './DestinationInput.styles';
@@ -17,10 +18,15 @@ export const DestinationInput = ({
   onChangeText,
   value,
 }: DestinationInputProps) => {
+  const theme = useTheme();
   const sharedProps = {placeholder};
 
   return disabled ? (
-    <DisabledInput editable={false} {...sharedProps} />
+    <DisabledInput
+      editable={false}
+      {...sharedProps}
+      placeholderTextColor={theme.colors.typography.textDisabled}
+    />
   ) : (
     <Input
       onChangeText={onChangeText}

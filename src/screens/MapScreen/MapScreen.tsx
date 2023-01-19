@@ -16,6 +16,8 @@ export const MapScreen = () => {
   const {models, operations} = useMapScreen();
   const theme = useTheme();
 
+  const mapMakersVisible = models.mapMarkers.length === 2;
+
   const renderMapMarkers = () => {
     return models.mapMarkers.map((item, index) => {
       return <Marker coordinate={item} key={index} />;
@@ -37,10 +39,16 @@ export const MapScreen = () => {
           apikey={GOOGLE_MAPS_API_KEY}
           strokeColor={theme.colors.screens.mapScreen.directionsStroke}
           strokeWidth={scale(5)}
+          onReady={operations.handleMapDirectionsReady}
         />
       </StyledMapView>
-      <MapSearchBar onPress={operations.handleMapSearchBarPress} />
-      <RoundButton icon="ios-menu-outline" />
+      {mapMakersVisible ? null : (
+        <MapSearchBar onPress={operations.handleMapSearchBarPress} />
+      )}
+      <RoundButton
+        onPress={operations.handleRoundButtonPress}
+        icon={mapMakersVisible ? 'arrow-back-outline' : 'ios-menu-outline'}
+      />
       <DestinationModal
         visible={models.modalVisible}
         closeModal={operations.closeDestinationModal}
