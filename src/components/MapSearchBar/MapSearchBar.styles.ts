@@ -9,7 +9,7 @@ interface ContainerProps {
 
 export const Container = styled.View<ContainerProps>(({insets}) => {
   return {
-    top: insets.top + scale(60),
+    top: (insets.top || scale(15)) + scale(60),
     position: 'absolute',
     alignSelf: 'center',
   };

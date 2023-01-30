@@ -16,7 +16,7 @@ import {FlatlistHeader} from './components/FlatlistHeader';
 interface DestinationModalProps {
   visible: boolean;
   closeModal: () => void;
-  onPlaceItemPress: (coords: LatLng) => () => void;
+  onPlaceItemPress: (coords: LatLng) => void;
 }
 
 const ItemSeparatorComponent = () => <Spacer height={scale(17)} />;
@@ -26,13 +26,12 @@ export const DestinationModal = ({
   closeModal,
   onPlaceItemPress,
 }: DestinationModalProps) => {
-  const {models, operations} = useDestinationModal();
+  const {models, operations} = useDestinationModal({
+    onPlaceItemPress,
+    closeModal,
+  });
   const insets = useSafeAreaInsets();
   const styles = useStyles(insets);
-
-  const handleRoundButtonPress = () => {
-    closeModal();
-  };
 
   const renderFlatListItem = ({item}: {item: TextSearchItem}) => {
     return (
@@ -41,18 +40,21 @@ export const DestinationModal = ({
         name={item.name}
         iconUrl={item.icon}
         address={item.formatted_address}
-        onPress={onPlaceItemPress({
-          latitude: item.geometry.location.lat,
-          longitude: item.geometry.location.lng,
-        })}
+        onPress={operations.handlePlaceItemPress(item)}
       />
     );
   };
 
   return (
-    <Modal onRequestClose={closeModal} visible={visible} animationType="fade">
+    <Modal
+      onDismiss={operations.handleModalDismiss}
+      onRequestClose={closeModal}
+      visible={visible}
+      animationType="fade">
       <StyledFlatlist
         stickyHeaderIndices={[0]}
+        keyboardShouldPersistTaps="always"
+        keyboardDismissMode="interactive"
         data={models.textSearchQueryResponseData}
         renderItem={renderFlatListItem}
         ItemSeparatorComponent={ItemSeparatorComponent}
@@ -66,7 +68,10 @@ export const DestinationModal = ({
           />
         }
       />
-      <RoundButton icon="arrow-back-outline" onPress={handleRoundButtonPress} />
+      <RoundButton
+        icon="arrow-back-outline"
+        onPress={operations.handleRoundButtonPress}
+      />
     </Modal>
   );
 };

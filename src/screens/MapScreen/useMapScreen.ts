@@ -14,16 +14,16 @@ export const useMapScreen = () => {
   const mapRef = useRef<MapView>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [mapMarkers, setMapMarkers] = useState<LatLng[]>([]);
-  const [mapDirectionsInfo, setMapDirectionsInfo] =
-    useState<MapDirectionsResponse>();
-
+  const [mapDirections, setMapDirections] = useState<MapDirectionsResponse>();
   const insets = useSafeAreaInsets();
 
   const {userLocation, setUserLocation} = useUserLocationStateContext();
 
+  const isRouteVisible = mapMarkers.length === 2;
+
   useEffect(() => {
-    if (mapDirectionsInfo?.coordinates) {
-      mapRef.current?.fitToCoordinates(mapDirectionsInfo?.coordinates, {
+    if (mapDirections?.coordinates) {
+      mapRef.current?.fitToCoordinates(mapDirections?.coordinates, {
         edgePadding: {
           top: insets.top + scale(15),
           bottom: scale(15),
@@ -32,7 +32,7 @@ export const useMapScreen = () => {
         },
       });
     }
-  }, [insets.top, mapDirectionsInfo?.coordinates]);
+  }, [mapDirections?.coordinates, insets.top]);
 
   const centerToUserLocation = useCallback(() => {
     if (userLocation) {
@@ -56,7 +56,7 @@ export const useMapScreen = () => {
   const handleUserLocationChange = ({
     nativeEvent: {coordinate},
   }: UserLocationChangeEvent) => {
-    if (coordinate) {
+    if (coordinate && !modalVisible && !isRouteVisible) {
       setUserLocation({
         coords: {
           latitude: coordinate.latitude,
@@ -71,20 +71,18 @@ export const useMapScreen = () => {
   };
 
   const handlePlaceItemPress = (coords: LatLng) => {
-    return () => {
-      if (userLocation?.coords) {
-        setMapMarkers([userLocation?.coords, coords]);
-        setModalVisible(false);
-      }
-    };
+    if (userLocation?.coords) {
+      setMapMarkers([userLocation?.coords, coords]);
+      setModalVisible(false);
+    }
   };
 
-  const handleMapDirectionsReady = (response: MapDirectionsResponse) => {
-    setMapDirectionsInfo(response);
+  const handleMapDirectionsReady = (routeInfo: MapDirectionsResponse) => {
+    setMapDirections(routeInfo);
   };
 
   const handleRoundButtonPress = () => {
-    if (mapMarkers.length === 2) {
+    if (isRouteVisible) {
       setMapMarkers([]);
       centerToUserLocation();
     }
@@ -95,6 +93,7 @@ export const useMapScreen = () => {
       mapRef,
       modalVisible,
       mapMarkers,
+      isRouteVisible,
     },
     operations: {
       handleUserLocationChange,

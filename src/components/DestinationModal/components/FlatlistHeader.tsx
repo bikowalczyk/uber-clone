@@ -30,7 +30,7 @@ export const FlatlistHeader = ({
   return (
     <>
       <Container>
-        <Spacer height={insets.top + scale(60)} />
+        <Spacer height={(insets.top || scale(15)) + scale(60)} />
         <HorizontalContainer>
           <DecoratorsContainer>
             <DecoratorCircle />

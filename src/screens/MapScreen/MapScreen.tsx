@@ -16,8 +16,6 @@ export const MapScreen = () => {
   const {models, operations} = useMapScreen();
   const theme = useTheme();
 
-  const mapMakersVisible = models.mapMarkers.length === 2;
-
   const renderMapMarkers = () => {
     return models.mapMarkers.map((item, index) => {
       return <Marker coordinate={item} key={index} />;
@@ -42,12 +40,12 @@ export const MapScreen = () => {
           onReady={operations.handleMapDirectionsReady}
         />
       </StyledMapView>
-      {mapMakersVisible ? null : (
+      {models.isRouteVisible ? null : (
         <MapSearchBar onPress={operations.handleMapSearchBarPress} />
       )}
       <RoundButton
         onPress={operations.handleRoundButtonPress}
-        icon={mapMakersVisible ? 'arrow-back-outline' : 'ios-menu-outline'}
+        icon={models.isRouteVisible ? 'arrow-back-outline' : 'ios-menu-outline'}
       />
       <DestinationModal
         visible={models.modalVisible}
