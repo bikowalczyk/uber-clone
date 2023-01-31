@@ -1,5 +1,6 @@
 import React from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {FadeInDown} from 'react-native-reanimated';
 
 import {CustomText} from 'components/common/CustomText';
 
@@ -12,7 +13,7 @@ interface MapSearchBarProps {
 export const MapSearchBar = ({onPress}: MapSearchBarProps) => {
   const insets = useSafeAreaInsets();
   return (
-    <Container insets={insets}>
+    <Container entering={FadeInDown} insets={insets}>
       <StyledPressable onPress={onPress}>
         <Square />
         <CustomText variant="body">Where to?</CustomText>
