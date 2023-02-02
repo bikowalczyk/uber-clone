@@ -6,6 +6,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {scale} from 'react-native-size-matters';
 
 import {useUserLocationStateContext} from 'context/UserLocationStateContext';
+import {mapRideSheetIndexToMapPadding} from 'constants/bottomSheetSnapPoints';
 
 const LATITUDE_DELTA = 0.0022;
 const LONGITUDE_DELTA = 0.005;
@@ -88,6 +89,19 @@ export const useMapScreen = () => {
     }
   };
 
+  const handleBottomSheetChange = (index: number) => {
+    if (mapDirections?.coordinates) {
+      mapRef.current?.fitToCoordinates(mapDirections?.coordinates, {
+        edgePadding: {
+          top: insets.top + scale(30),
+          bottom: mapRideSheetIndexToMapPadding[index],
+          left: scale(15),
+          right: scale(15),
+        },
+      });
+    }
+  };
+
   return {
     models: {
       mapRef,
@@ -102,6 +116,7 @@ export const useMapScreen = () => {
       handlePlaceItemPress,
       handleMapDirectionsReady,
       handleRoundButtonPress,
+      handleBottomSheetChange,
     },
   };
 };

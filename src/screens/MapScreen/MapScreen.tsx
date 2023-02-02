@@ -8,6 +8,7 @@ import {scale} from 'react-native-size-matters';
 import {RoundButton} from 'components/RoundButton';
 import {MapSearchBar} from 'components/MapSearchBar';
 import {DestinationModal} from 'components/DestinationModal';
+import {ChooseRideBottomSheet} from 'components/ChooseRideBottomSheet';
 
 import {useMapScreen} from './useMapScreen';
 import {StyledMapView, Container} from './MapScreen.styles';
@@ -52,6 +53,9 @@ export const MapScreen = () => {
         closeModal={operations.closeDestinationModal}
         onPlaceItemPress={operations.handlePlaceItemPress}
       />
+      {models.isRouteVisible ? (
+        <ChooseRideBottomSheet onChange={operations.handleBottomSheetChange} />
+      ) : null}
     </Container>
   );
 };
