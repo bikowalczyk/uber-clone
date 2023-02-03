@@ -1,9 +1,14 @@
 import React from 'react';
 
-import {BodyText, TitleText, CaptionText} from './CustomText.styles';
+import {
+  BodyText,
+  TitleText,
+  CaptionText,
+  HeaderText,
+} from './CustomText.styles';
 
 interface CustomText {
-  variant: 'body' | 'title' | 'caption';
+  variant: 'body' | 'title' | 'caption' | 'header';
   children: string;
 }
 
@@ -15,6 +20,8 @@ const getComponent = (variant: CustomText['variant']) => {
       return TitleText;
     case 'caption':
       return CaptionText;
+    case 'header':
+      return HeaderText;
     default:
       return BodyText;
   }

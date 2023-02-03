@@ -22,19 +22,6 @@ export const useMapScreen = () => {
 
   const isRouteVisible = mapMarkers.length === 2;
 
-  useEffect(() => {
-    if (mapDirections?.coordinates) {
-      mapRef.current?.fitToCoordinates(mapDirections?.coordinates, {
-        edgePadding: {
-          top: insets.top + scale(15),
-          bottom: scale(15),
-          left: scale(15),
-          right: scale(15),
-        },
-      });
-    }
-  }, [mapDirections?.coordinates, insets.top]);
-
   const centerToUserLocation = useCallback(() => {
     if (userLocation) {
       mapRef.current?.animateToRegion({

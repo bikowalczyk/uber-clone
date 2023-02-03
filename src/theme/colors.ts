@@ -36,6 +36,10 @@ export const colors = {
       iconBackground: pallette.blue,
       iconTint: pallette.white,
     },
+    chooseRideItem: {
+      selectedBorderColor: pallette.black,
+      borderColor: pallette.white,
+    },
   },
   screens: {
     mapScreen: {
