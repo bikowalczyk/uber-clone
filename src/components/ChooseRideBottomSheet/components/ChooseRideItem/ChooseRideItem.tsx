@@ -37,7 +37,8 @@ export const ChooseRideItem = ({
 }: ChooseRideItemProps) => {
   const {date} = useDate();
   const isExtended = variant === 'expanded';
-  const arrivalTime = date.add(eta, 'minutes').format('HH:mm');
+
+  const formattedEta = date.add(eta, 'minutes').format('HH:mm');
 
   return (
     <StyledPressable selected={selected} onPress={onPress}>
@@ -60,8 +61,8 @@ export const ChooseRideItem = ({
           {!isExtended ? (
             <CustomText variant="body">
               {selected
-                ? `${arrivalTime} • ${eta} mins to arrival`
-                : arrivalTime}
+                ? `${formattedEta} • ${eta} mins to arrival`
+                : formattedEta}
             </CustomText>
           ) : null}
           {isExtended ? (

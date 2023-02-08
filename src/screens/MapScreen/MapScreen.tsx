@@ -54,7 +54,10 @@ export const MapScreen = () => {
         onPlaceItemPress={operations.handlePlaceItemPress}
       />
       {models.isRouteVisible ? (
-        <ChooseRideBottomSheet onChange={operations.handleBottomSheetChange} />
+        <ChooseRideBottomSheet
+          onChange={operations.handleBottomSheetChange}
+          mapDirections={models.mapDirections}
+        />
       ) : null}
     </Container>
   );
