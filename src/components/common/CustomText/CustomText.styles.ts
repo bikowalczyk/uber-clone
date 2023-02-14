@@ -30,3 +30,11 @@ export const HeaderText = styled.Text(({theme}) => {
     fontWeight: '500',
   };
 });
+
+export const SmallHeaderText = styled.Text(({theme}) => {
+  return {
+    fontSize: scale(15),
+    color: theme.colors.typography.common,
+    fontWeight: '500',
+  };
+});

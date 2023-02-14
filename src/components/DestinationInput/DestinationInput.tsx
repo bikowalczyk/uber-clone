@@ -3,6 +3,10 @@ import React from 'react';
 
 import {DisabledInput, Input} from './DestinationInput.styles';
 
+// TODO: rebuild it and make it extend input props
+// Omit editable props
+// Record it again and put after this component is done
+
 interface DestinationInputProps {
   disabled?: boolean;
   placeholder?: string;

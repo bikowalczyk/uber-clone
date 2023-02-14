@@ -5,11 +5,13 @@ import {
   TitleText,
   CaptionText,
   HeaderText,
+  SmallHeaderText,
 } from './CustomText.styles';
 
 interface CustomText {
-  variant: 'body' | 'title' | 'caption' | 'header';
+  variant: 'body' | 'title' | 'caption' | 'header' | 'smHeader';
   children: string;
+  color?: string;
 }
 
 const getComponent = (variant: CustomText['variant']) => {
@@ -22,13 +24,21 @@ const getComponent = (variant: CustomText['variant']) => {
       return CaptionText;
     case 'header':
       return HeaderText;
+    case 'smHeader':
+      return SmallHeaderText;
     default:
       return BodyText;
   }
 };
 
-export const CustomText = ({variant, children}: CustomText) => {
+export const CustomText = ({variant, children, color}: CustomText) => {
   const Component = getComponent(variant);
 
-  return <Component>{children}</Component>;
+  const sharedProps = {
+    style: {
+      ...(color ? {color} : {}),
+    },
+  };
+
+  return <Component {...sharedProps}>{children}</Component>;
 };

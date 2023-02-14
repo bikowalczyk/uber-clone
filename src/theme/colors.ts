@@ -40,6 +40,15 @@ export const colors = {
       selectedBorderColor: pallette.black,
       borderColor: pallette.white,
     },
+    rideBottomSheet: {
+      footerRightIconBackground: pallette.lighterGrey,
+      footerLeftIconBackground: pallette.black,
+      footerLeftIconColor: pallette.white,
+    },
+    actionButton: {
+      backgroundColor: pallette.black,
+      fontColor: pallette.white,
+    },
   },
   screens: {
     mapScreen: {
