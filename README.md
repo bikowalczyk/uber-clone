@@ -13,3 +13,5 @@ Tech stack:
 - react-native-bottom-sheet
 - expo-location
 - react-native-reanimated
+
+#### Remember to put your Google API key in `.env` file
